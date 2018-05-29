@@ -4,22 +4,22 @@
 var baseChain =
     "CCACACCACACCCACACACCCAC";
 var baseChains=new Array();
-baseChains[0]="CCACACCACACCCACACACCCAC";
-baseChains[1]="CCACACCACACCCACACACCCAC";
-baseChains[2]="CCACACCACACCCACACACCCAC";
-baseChains[3]="CCACACCACACCCACACACCCAC";
-baseChains[4]="CCACACCACACCCACACACCCAC";
-baseChains[5]="CCACACCACACCCACACACCCAC";
-baseChains[6]="CCACACCACACCCACACACCCAC";
-baseChains[7]="CCACACCACACCCACACACCCAC";
-baseChains[8]="CCACACCACACCCACACACCCAC";
+baseChains[0]="CBCCACACCACACCCACACACCCAC";
+baseChains[1]="CTACACCACACCCACACACCCAC";
+baseChains[2]="CCAGTCACCACACCCACACACCCAC";
+baseChains[3]="CCACACCTGACACCCACACACCCAC";
+baseChains[4]="CCACACCACACCCAGTCACACCCAC";
+baseChains[5]="CCACACCGTACACCCACACACCCAC";
+baseChains[6]="CCACATGTGCCACACCCACACACCCAC";
+baseChains[7]="CCACACCATGCACCCACACACCCAC";
+baseChains[8]="CCACACCTGTGACACCCACACACCCCCCCCAC";
 baseChains[9]="CCACACCACACCCACACACCCAC";
-baseChains[10]="CCACACCACACCCACACACCCAC";
-baseChains[11]="CCACACCACACCCACACACCCAC";
-baseChains[12]="CCACACCACACCCACACACCCAC";
-baseChains[13]="CCACACCACACCCACACACCCAC";
-baseChains[14]="CCACACCACACCCACACACCCAC";
-baseChains[15]="CCACACCACACCCACACACCCAC";
+baseChains[10]="CCATTCACCACACCCACACACCCAC";
+baseChains[11]="CCACGTACCACACCCACACACCCAC";
+baseChains[12]="CCACACCACGTACCCACACACCCAC";
+baseChains[13]="CCAGGCACCACACCCACACACCCAC";
+baseChains[14]="CCTGACACCACGACCCACTACACCCAC";
+baseChains[15]="CCACACCGACACCCATCACGACCCAC";
 //键值对 对应碱基对
 var baseOp = {
     'T': 'A',
@@ -39,6 +39,7 @@ var winHeight, winWidth;
 // svg宽高
 var svgHeight, svgWidth;
 //获取网页宽高并修改svg宽高
+
 function getWinSize() {
     winHeight = window.screen.height;
     winWidth = window.screen.width;
@@ -100,12 +101,16 @@ function drawRect(svgContainer,x,y,baseSize,base,type,rectID){
 // 调用drawRect画出所有的碱基
 // 可根据需求添加参数
 function loopDraw(g){
-        var rectID = 0;
-    for (var i = 0, x = 0, y = 0; i < baseChain.length; i++, x += baseSize) {
-        var position = i + beginPoint;
-        //正、反链
-        drawRect(g, x, y, baseSize, baseChain[position], 1, rectID);
-        rectID = rectID + 2;
+    var rectID = 0;
+
+    var y=0;
+    for (index in baseChains){
+        for (var i=0,x=0;i<baseChains[index].length;i++,x+=baseSize){
+            var position=i+beginPoint;
+            drawRect(g,x,y,baseSize,baseChains[index][position],1,rectID);
+            rectID=rectID+2;
+        }
+        y=y+baseHeight*1.1;
     }
 }
 
@@ -117,10 +122,19 @@ loopDraw(g);
 
 // addZoom(svgContainer, g);
 // enableDrag(svgContainer, g);
-g.append("rect")
-    .attr("id",55)
-    .attr("x", 33)
-    .attr("y", 33)
-    .attr("width", 99)
-    .attr("height", 99)
-    .attr("fill", "red")
+//添加遮罩 设置动画
+var cover=g.append("rect")
+    .attr("id","cover")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", svgWidth)
+    .attr("height", svgHeight)
+    .attr("fill", "#FFFFFF")
+    .attr("aa","aaa")
+    .attr("z-index",9999)
+var animateY=cover.append("animate")
+    .attr("attributeName","y")
+    .attr("dur","8s")
+    .attr("from",0)
+    .attr("to",svgHeight)
+    .attr("repeatCount","indefinite")
