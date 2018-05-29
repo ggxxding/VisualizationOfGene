@@ -2,7 +2,7 @@
 // 7690*4320
 //碱基对序列
 var baseChain =
-    "CCACACCACACACACCCACC";
+    "CCACACCACcACACCCACC";
 var baseChains=new Array();
 baseChains[0]="CBCCACACCACACCCACACACCCAC";
 baseChains[1]="CTACACCACACCCACACACCCAC";
