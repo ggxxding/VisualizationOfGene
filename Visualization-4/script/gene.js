@@ -115,7 +115,7 @@ function loopDraw(g){
 }
 
 
-var svgContainer,g= createD3svg(1);
+var svgContainer,g= c1reateD3svg(1);
 
 // g标签中分别添加rect和text 标签
 loopDraw(g);
