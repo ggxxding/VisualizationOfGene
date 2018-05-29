@@ -1,2 +1,0 @@
-# VisualizationOfGene
-What's this???
