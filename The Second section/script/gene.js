@@ -4,7 +4,7 @@
 var baseChain =
     "CCACACCACcACACCcCACC";
 var baseChains=new Array();
-baseChains[0]="CBCCACACCACACCCACACACCCAC";
+baseChains[0]="cBCCBBBBBBBBCCCACACACCCAC";
 baseChains[1]="CTACACCACACCCACACACCCAC";
 baseChains[2]="CCAGTCACCACACCCACACACCCAC";
 baseChains[3]="CCACACCTGACACCCACACACCCAC";
@@ -95,8 +95,8 @@ function drawRect(svgContainer,x,y,baseSize,base,type,rectID){
         .attr('x', x + baseSize / 2)
         .attr('y', y + baseHeight / 2)
         .attr('text-anchor', 'middle')
-        .style('font-size', baseSize / 2 + 'px')
-        .attr('dy', baseSize / 4);
+        .style('font-size', baseHeight / 2 + 'px')
+        .attr('dy', baseHeight / 4);
 }
 // 调用drawRect画出所有的碱基
 // 可根据需求添加参数
@@ -115,15 +115,15 @@ function loopDraw(g){
 }
 
 
-var svgContainer,g= createD3svg(1);
+var svgContainer1,g1= createD3svg(1);
 
 // g标签中分别添加rect和text 标签
-loopDraw(g);
+loopDraw(g1);
 
 // addZoom(svgContainer, g);
 // enableDrag(svgContainer, g);
 //添加遮罩 设置动画
-var cover=g.append("rect")
+var cover=g1.append("rect")
     .attr("id","cover")
     .attr("x", 0)
     .attr("y", 0)
@@ -131,9 +131,56 @@ var cover=g.append("rect")
     .attr("height", svgHeight)
     .attr("fill", "#FFFFFF")
     .attr("z-index",9999)
+
 var animateY=cover.append("animate")
     .attr("attributeName","y")
     .attr("dur","8s")
     .attr("from",0)
     .attr("to",svgHeight)
     .attr("repeatCount","indefinite")
+
+function addWidth(){
+
+    baseSize=baseSize+1;
+
+    g1.text('');
+    loopDraw(g1);
+var cover=g1.append("rect")
+    .attr("id","cover")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", svgWidth)
+    .attr("height", svgHeight)
+    .attr("fill", "#FFFFFF")
+    .attr("z-index",9999)
+
+var animateY=cover.append("animate")
+    .attr("attributeName","y")
+    .attr("dur","8s")
+    .attr("from",0)
+    .attr("to",svgHeight)
+    .attr("repeatCount","indefinite")
+}
+
+function subWidth(){
+
+    baseSize=baseSize-1;
+
+    g1.text('');
+    loopDraw(g1);
+var cover=g1.append("rect")
+    .attr("id","cover")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", svgWidth)
+    .attr("height", svgHeight)
+    .attr("fill", "#FFFFFF")
+    .attr("z-index",9999)
+
+var animateY=cover.append("animate")
+    .attr("attributeName","y")
+    .attr("dur","8s")
+    .attr("from",0)
+    .attr("to",svgHeight)
+    .attr("repeatCount","indefinite")
+}

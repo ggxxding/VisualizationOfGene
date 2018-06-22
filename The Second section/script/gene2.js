@@ -3,7 +3,7 @@
 //碱基对序列
 //var baseChain =
   //  "CCACACCACcACACCcCACC";
-var baseChains=new Array();
+var baseChains2=new Array();
 /*baseChains[0][0]="CAGTACAGCACACGCACACACCCAC";
 baseChains[0][1]="GTCATGTCGTGTGCGTGTGTGGGTG";
 baseChains[1][0]="ACTTCGCATTCCTAG";
@@ -16,18 +16,18 @@ baseChains[4][0]="GCAGCCTCGGCACCCGACCCCTACCGG";
 baseChains[4][1]="CGTCGGAGCCGTGGGCTGGGGATGGCC";
 baseChains[5][0]="ATCGGCCGCCCTCGACCCTAC";
 baseChains[5][1]="TAGCCGGCGGGAGCTGGGATG";*/
-baseChains[0]="CAGTACAGCACACGCACACACCCAC";
-baseChains[1]="GTCATGTCGTGTGCGTGTGTGGGTG";
-baseChains[2]="ACTTCGCATTCCTAG";
-baseChains[3]="TGAAGCGTAAGGATC";
-baseChains[4]="TGCCTAACGCGGGCCATCGTCG";
-baseChains[5]="ACGGATTGCGCCCGGTAGCTGC";
-baseChains[6]="CACCGGTGATGCCATCGGATCGCCACCTTA";
-baseChains[7]="ATGGCCACTACGGTAGCCTAGCGGTGGAAT";
-baseChains[8]="GCAGCCTCGGCACCCGACCCCTACCGG";
-baseChains[9]="CGTCGGAGCCGTGGGCTGGGGATGGCC";
-baseChains[10]="ATCGGCCGCCCTCGACCCTAC";
-baseChains[11]="TAGCCGGCGGGAGCTGGGATG";
+baseChains2[0]="CAGTACAGCACACGCACACACCCAC";
+baseChains2[1]="GTCATGTCGTGTGCGTGTGTGGGTG";
+baseChains2[2]="ACTTCGCATTCCTAG";
+baseChains2[3]="TGAAGCGTAAGGATC";
+baseChains2[4]="TGCCTAACGCGGGCCATCGTCG";
+baseChains2[5]="ACGGATTGCGCCCGGTAGCTGC";
+baseChains2[6]="CACCGGTGATGCCATCGGATCGCCACCTTA";
+baseChains2[7]="ATGGCCACTACGGTAGCCTAGCGGTGGAAT";
+baseChains2[8]="GCAGCCTCGGCACCCGACCCCTACCGG";
+baseChains2[9]="CGTCGGAGCCGTGGGCTGGGGATGGCC";
+baseChains2[10]="ATCGGCCGCCCTCGACCCTAC";
+baseChains2[11]="TAGCCGGCGGGAGCTGGGATG";
 
 var elem=new Array();
 elem[0]="gene1";
@@ -73,7 +73,7 @@ var criticalValue = [500, 100];
 getWinSize();
 //碱基大小，页宽/碱基个数svgWidth / baseChain.length
 var baseSize = svgWidth / 50;
-var baseHeight = svgHeight / 16;
+var baseHeight = svgHeight / 20;
 // console.log(baseSize);
 //所画的第一个碱基的序号
 var beginPoint = 0;////////////////////
@@ -98,7 +98,7 @@ function createD3svg(id) {
     return svgContainer,g;
 }
 //参数svg，长方形的左上角坐标（x，y），碱基大小baseSize，碱基类型base，正反链标志type
-function drawRect(svgContainer,x,y,baseSize,base,type,rectID){
+function drawRect2(svgContainer,x,y,baseSize,base,type,rectID){
     svgContainer.append("rect")
     .attr("id",rectID)
     .attr("x", x)
@@ -121,10 +121,10 @@ function Draw(g){
     var rectID = 0;
 
     var y=0;
-    for (index in baseChains){
-        for (var i=0,x=0;i<baseChains[index].length;i++,x+=baseSize){
+    for (index in baseChains2){
+        for (var i=0,x=0;i<baseChains2[index].length;i++,x+=baseSize){
             var position=i+beginPoint;
-            drawRect(g,x,y,baseSize,baseChains[index][position],i%2,rectID);
+            drawRect2(g,x,y,baseSize,baseChains2[index][position],i%2,rectID);
             rectID=rectID+2;
             
         }
@@ -134,8 +134,8 @@ function Draw(g){
 }
 
 
-var svgContainer,g= createD3svg(1);
+var svgContainer2,g2= createD3svg(3);
 
 // g标签中分别添加rect和text 标签
-Draw(g);
+Draw(g2);
 
