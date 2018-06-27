@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<title>NO.2</title>
+
+</head>
+ 
+<body>
+
+<script>
+if(typeof(WebSocket)=='undefined'){
+    alert('你的浏览器不支持 WebSocket ，推荐使用Google Chrome 或者 Mozilla Firefox'); 
+}
+</script>
+<script>
+(function(){
+    var target='all';
+    var users={};
+    var url='ws://127.0.0.1:6001';
+    var so=false,n=false;
+    /*
+        WebSocket通信键值对通用定义：
+        键       值                     含义
+        type     add/update             告诉服务器此次通信的类型是新增窗口还是发送信息
+        area     1/2/3/4/5              告诉服务器本页面是第几区
+        msg      字符串                  需要发送给其他页面的信息字符串
+        target   1/2/3/4/5/all          需要接受信息的页面是第几区
+        from     socket标识符            信息来自哪一区
+        toArea   1/2/3/4/5/all          信息发送到哪一区
+        time     m-d H:i:s              信息从服务器发出的时间
+    */
+    function start(){
+        // n=prompt('请给自己取一个响亮的名字：');
+        // n=n.substr(0,16);
+        n = 2;
+        if(!n){ 
+            return ;   
+        }
+        //创建socket，注意URL的格式：ws://ip:端口
+        so=new WebSocket(url);
+        //握手监听函数
+        so.onopen=function(){
+            //状态为1证明握手成功，然后把client随机生成的名字发送过去
+            if(so.readyState==1){
+                so.send('type=add&area='+n);
+            }
+        }
+         
+        //握手失败或者其他原因连接socket失败，则清除so对象并做相应提示操作
+        so.onclose=function(){
+            so=false;
+            // lct.appendChild(A.$$('<p class="c2">连接WebSocket服务器失败</p>'));
+            console.log("连接WebSocket服务器失败");
+        }
+         
+        //数据接收监听，接收服务器推送过来的信息，返回的数据给msg，然后进行显示
+        so.onmessage=function(msg){
+            eval('var data='+msg.data);
+            var t= JSON.parse(data.msg)
+            // console.log(t.hello);
+            // console.log(t.test);
+            var obj=false,c=false;
+            if(data.type=="update"){
+                //刷新外环形
+                console.log(data);
+            }
+            
+        }
+    }
+
+    //发送拼接请求到WebSocket server
+    function pingjie(data){
+        // if(!so){
+        //      return start();
+        // }
+        // // var data;
+        // if(data==''){
+        //     alert('内容不能为空');
+        //     return false;  
+        // }
+        // //发送data给第2区
+        // so.send('type=update'+'&msg='+esc(data)+'&target=2');
+    }
+    //编码过程
+    function esc(da){
+        da=da.replace(/</g,'<').replace(/>/g,'>').replace(/\"/g,'"');
+        return encodeURIComponent(da);
+    }
+
+    start();
+})();
+</script>
+</body>
+</html>
