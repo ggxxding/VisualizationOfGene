@@ -350,11 +350,31 @@ class Sock{
                     $this->e("".$str);
                 }
             }
-        }
-        else{
+        }else if($target==4){
+            //发送信息给所有第4区页面
+            $users=$this->users;
+
+            foreach($users as $v){
+                if($v['area']==$target){
+                    socket_write($v['socket'],$str,strlen($str));
+                    $this->e("".$str);
+                }
+            }
+        }else if($target==5){
+            //发送信息给所有第5区页面
+            $users=$this->users;
+
+            foreach($users as $v){
+                if($v['area']==$target){
+                    socket_write($v['socket'],$str,strlen($str));
+                    $this->e("".$str);
+                }
+            }
+        }else{
             // //单独对个人发送信息，即双方聊天
             // socket_write($this->users[$k]['socket'],$str,strlen($str));
             // socket_write($this->users[$target]['socket'],$str,strlen($str));
+            $this->e("发送目标不存在：".$str);
         }
     }
      
