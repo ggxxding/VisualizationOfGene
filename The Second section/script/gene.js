@@ -8,18 +8,8 @@ baseChains[0]="cBCCBBBBBBBBCCCACACACCCAC";
 baseChains[1]="CTACACCACACCCACACACCCAC";
 baseChains[2]="CCAGTCACCACACCCACACACCCAC";
 baseChains[3]="CCACACCTGACACCCACACACCCAC";
-baseChains[4]="CCACACCACACCCAGTCACACCCAC";
-baseChains[5]="CCACACCGTACACCCACACACCCAC";
-baseChains[6]="CCACATGTGCCACACCCACACACCCAC";
-baseChains[7]="CCACACCATGCACCCACACACCCAC";
-baseChains[8]="CCACACCTGTGACACCCACACACCCCCCCCAC";
-baseChains[9]="CCACACCACACCCACACACCCAC";
-baseChains[10]="CCATTCACCACACCCACACACCCAC";
-baseChains[11]="CCACGTACCACACCCACACACCCAC";
-baseChains[12]="CCACACCACGTACCCACACACCCAC";
-baseChains[13]="CCAGGCACCACACCCACACACCCAC";
-baseChains[14]="CCTGACACCACGACCCACTACACCCAC";
-baseChains[15]="CCACACCGACACCCATCACGACCCAC";
+
+
 //键值对 对应碱基对
 var baseOp = {
     'T': 'A',
@@ -60,6 +50,7 @@ var baseHeight = svgHeight / 20;
 // console.log(baseSize);
 //所画的第一个碱基的序号
 var beginPoint = 0;////////////////////
+var speed=8;//动画速度
 
 //当浏览器大小改变时，重新获取宽高，修改svg大小、重画、网页刷新
 $(window).resize(function() {
@@ -100,87 +91,125 @@ function drawRect(svgContainer,x,y,baseSize,base,type,rectID){
 }
 // 调用drawRect画出所有的碱基
 // 可根据需求添加参数
-function loopDraw(g){
+function loopDraw(g,data){
     var rectID = 0;
 
     var y=0;
-    for (index in baseChains){
-        for (var i=0,x=0;i<baseChains[index].length;i++,x+=baseSize){
+    for (index in data){
+        for (var i=0,x=0;i<data[index].length;i++,x+=baseSize){
             var position=i+beginPoint;
-            drawRect(g,x,y,baseSize,baseChains[index][position],1,rectID);
+            drawRect(g,x,y,baseSize,data[index][position],1,rectID);
             rectID=rectID+2;
         }
         y=y+baseHeight*1.1;
     }
+    var cover=g1.append("rect")
+    .attr("id","cover")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", svgWidth)
+    .attr("height", svgHeight)
+    .attr("fill", "#FFFFFF")
+    .attr("z-index",9999)
+    .attr("fill-opacity",1)
+    var animateY=cover.append("animate")
+    .attr("id","animate1")
+    .attr("attributeName","y")
+    .attr("dur",String(speed)+'s')
+    .attr("from",0)
+    .attr("to",svgHeight)
+    .attr("repeatCount","indefinite")
+
 }
 
 
 var svgContainer1,g1= createD3svg(1);
 
 // g标签中分别添加rect和text 标签
-loopDraw(g1);
-
+loopDraw(g1,baseChains);
+document.getElementById('animationSpeed').value=speed;
 // addZoom(svgContainer, g);
 // enableDrag(svgContainer, g);
 //添加遮罩 设置动画
-var cover=g1.append("rect")
-    .attr("id","cover")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("width", svgWidth)
-    .attr("height", svgHeight)
-    .attr("fill", "#FFFFFF")
-    .attr("z-index",9999)
 
-var animateY=cover.append("animate")
-    .attr("attributeName","y")
-    .attr("dur","8s")
-    .attr("from",0)
-    .attr("to",svgHeight)
-    .attr("repeatCount","indefinite")
-
+//增减宽度
 function addWidth(){
-
     baseSize=baseSize+1;
-
     g1.text('');
-    loopDraw(g1);
-var cover=g1.append("rect")
-    .attr("id","cover")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("width", svgWidth)
-    .attr("height", svgHeight)
-    .attr("fill", "#FFFFFF")
-    .attr("z-index",9999)
-
-var animateY=cover.append("animate")
-    .attr("attributeName","y")
-    .attr("dur","8s")
-    .attr("from",0)
-    .attr("to",svgHeight)
-    .attr("repeatCount","indefinite")
+    loopDraw(g1,baseChains);
 }
-
 function subWidth(){
-
     baseSize=baseSize-1;
-
     g1.text('');
-    loopDraw(g1);
-var cover=g1.append("rect")
-    .attr("id","cover")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("width", svgWidth)
-    .attr("height", svgHeight)
-    .attr("fill", "#FFFFFF")
-    .attr("z-index",9999)
-
-var animateY=cover.append("animate")
-    .attr("attributeName","y")
-    .attr("dur","8s")
-    .attr("from",0)
-    .attr("to",svgHeight)
-    .attr("repeatCount","indefinite")
+    loopDraw(g1,baseChains);
 }
+//改变动画速度
+function changeAnimation(){
+    speed=document.getElementById('animationSpeed').value;
+    speed=String(speed);
+    //console.log(speed)//
+    g1.text('');
+    loopDraw(g1,baseChains);
+}
+function addSpeed(){
+    speed=Number(speed)-1;
+    if(speed==0){
+        speed=1;
+    }
+    document.getElementById('animationSpeed').value=speed;
+    g1.text('');
+    loopDraw(g1,baseChains); 
+}
+function subSpeed(){
+    speed=Number(speed)+1;
+    document.getElementById('animationSpeed').value=speed;
+    g1.text('');
+    loopDraw(g1,baseChains);   
+}
+
+//创建websocket连结 by 王陈
+    var target='all';
+    var users={};
+    var ws_url='ws://127.0.0.1:6001';
+    var so=false,n=false;
+function start(){
+    n = 1;
+    if(!n){ 
+        return ;   
+    }
+    //创建socket，注意URL的格式：ws://ip:端口
+    so=new WebSocket(ws_url);
+    //握手监听函数
+    so.onopen=function(){
+    //状态为1证明握手成功，然后把client随机生成的名字发送过去
+    if(so.readyState==1){
+        so.send('type=add&area='+n);
+    }
+}
+//握手失败或者其他原因连接socket失败，则清除so对象并做相应提示操作
+so.onclose=function(){
+    so=false;
+    // lct.appendChild(A.$$('<p class="c2">连接WebSocket服务器失败</p>'));
+    console.log("连接WebSocket服务器失败");
+}
+//数据接收监听，接收服务器推送过来的信息，返回的数据给msg，然后进行显示
+so.onmessage=function(msg){
+    eval('var data='+msg.data);
+    console.log(data);
+    var obj=false,c=false;
+    if(data.type=="update"){
+    //刷新外环形
+    console.log("update:"+data);
+}
+}
+}
+
+        //发送data给第3区
+        //so.send('type=update&from=1&target=3'+'&msg='+esc(data));
+        //}
+            
+        //编码过程
+        //function esc(da){
+        //    da=da.replace(/</g,'<').replace(/>/g,'>').replace(/\"/g,'"');
+        //    return encodeURIComponent(da);
+        //}

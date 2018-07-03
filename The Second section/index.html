@@ -10,8 +10,7 @@
     <title>Hello Gene!</title>
     <script type="text/javascript" src="script/d3.js"></script>
     <script type="text/javascript" src="script/jquery.js"></script>
-    <script type="text/javascript" src="script/gene.js"></script>
-    <script type="text/javascript" src="script/gene2.js"></script>
+
     <link rel="stylesheet" href="css/style.css">
     <style>
     #header {
@@ -30,26 +29,33 @@
        <h3>The Second Section</h3>
     </div>
 
-    <a href="#" id='width'>000</a>
-    <a href="#" id='height'>000</a>
-    <a href="#" id="body">000</a>
-    <p> </p>
+    <a href="#" id='width'>0</a>
+    <a href="#" id='height'>0</a>
+    <a href="#" id="body">0</a>
 
     <div id="Dynamic process">
         <h3>Dynamic process</h3>
 
-        <input type="submit" value="+" onclick=addWidth()>
-        <input type="submit" value="-" onclick=subWidth()>
-
-
-        <script type="text/javascript" src="script/d3.js"></script>
-        <script type="text/javascript" src="script/jquery.js"></script>
+        <input type="submit" value="width+" onclick=addWidth()>
+        <input type="submit" value="width-" onclick=subWidth()>
+        <input type="submit" value="speed+" onclick=addSpeed()>
+        <input type="submit" value="speed-" onclick=subSpeed()>
+        <input type="text" value="动画速度(秒)" id='animationSpeed' > 
+        <input type="submit" value="提交" id='animationSpeedSubmit' onclick=changeAnimation()>
         <script type="text/javascript" src="script/gene.js"></script>
+        <script>
+        //webSocket 初始化
+        start();
+
+        // var gene_url = "http://10.10.30.46:5000/gene_api/get_genes_api.php";
+        // var data1 = {"chroname":"chrI", "start":"100", "end":"620"};
+        
+
+        </script>
     </div>
 
     <div id="Linear display">
         <h3>Linear display</h3>
-        <script type="text/javascript" src="script/d3.js"></script>
 
         <script type="text/javascript" src="script/gene2.js"></script>
     </div>

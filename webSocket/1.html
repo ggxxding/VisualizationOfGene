@@ -56,7 +56,7 @@ if(typeof(WebSocket)=='undefined'){
          
         //数据接收监听，接收服务器推送过来的信息，返回的数据给msg，然后进行显示
         so.onmessage=function(msg){
-            eval('var data='+msg.data);////
+            eval('var data='+msg.data);
             console.log(data);
             var obj=false,c=false;
             if(data.type=="update"){

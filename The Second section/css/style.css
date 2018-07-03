@@ -17,3 +17,9 @@ button {
     color: white;
     background-color: black;
 }
+#animationSpeed{
+    width:10%;
+}
+#animationSpeedSubmit{
+    width:10%;
+}
