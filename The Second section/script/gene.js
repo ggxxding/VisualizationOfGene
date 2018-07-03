@@ -168,10 +168,10 @@ function subSpeed(){
 }
 
 //创建websocket连结 by 王陈
-    var target='all';
-    var users={};
-    var ws_url='ws://127.0.0.1:6001';
-    var so=false,n=false;
+var target='all';
+var users={};
+var ws_url='ws://10.10.30.46:6001';
+var so=false,n=false;
 function start(){
     n = 1;
     if(!n){ 
