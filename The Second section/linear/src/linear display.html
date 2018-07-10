@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>linear display</title>
+    <link rel="stylesheet" type="text/css" href="../css/styles.css"/>
+    <script type="text/javascript" src="../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var data = [
+        {number: 1021, name: "gene1"},
+        {number: 683, name: "gene2"},
+        {number: 1623, name: "gene3"},
+        {number: 1053, name: "gene4"},
+        {number: 802, name: "gene5"},
+        {number: 989, name: "gene6"},
+        {number: 342, name: "gene7"},
+        {number: 890, name: "gene8"},
+        {number: 739, name: "gene9"},
+        {number: 1440, name: "gene10"},
+        {number: 1320, name: "gene11"}
+    ];
+
+     var datazhi = [
+        {position: 434, len: 3, from: "gene1"},
+        {position: 142, len: 5, from: "gene2"},
+        {position: 930, len: 9, from: "gene3"},
+        {position: 267, len: 2, from: "gene4"},
+        {position: 367, len: 5, from: "gene5"},
+        {position: 543, len: 8,from: "gene6"},
+        {position: 111, len: 2,from: "gene7"},
+        {position: 354, len: 6, from: "gene8"},
+        {position: 348, len: 6, from: "gene9"},
+        {position: 676, len: 11, from: "gene10"},
+        {position: 459, len:11, from: "gene11"}
+    ];
+
+    /*端粒长度按整条染色体显示长度的1/10
+      质粒只知道质粒的起始位置，随显示比例/2,长度数据不确定，是按个位数的碱基放大1.5倍
+    */
+    function render(data,name){
+        var x=0; 
+        var y=0;
+
+        for(index in data){
+            //蓝条 整条染色体
+            //console.log(data[index].number);
+            d3.select("body")
+            .append("div")
+            .attr("class","blue")
+            .style("top",String(y)+"px")
+            .style("left",String(x)+"px")
+            .style("width",String(data[index].number/2)+"px")
+            y=y+20;
+
+        }
+        
+        x=0,y=0;
+        for(index in data){
+            //红条左 左端粒
+            //console.log(data[index].number);
+            d3.select("body")
+            .append("div")
+            .attr("class","red")
+            .style("top",String(y)+"px")
+            .style("left",String(x)+"px")
+            .style("width",String(data[index].number/20)+"px")
+            y=y+20;
+
+        }        
+        y=0;
+        for(index in data){
+            //红条右 右端粒
+            //console.log(data[index].number);
+            d3.select("body")
+            .append("div")
+            .attr("class","red")
+            .style("top",String(y)+"px")
+            .style("left",String(data[index].number/2-data[index].number/20)+"px")
+            .style("width",String(data[index].number/20)+"px")
+            .text(data[index].name)
+            y=y+20;
+
+        }
+        x=0,y=0;
+        for(index in datazhi){
+            //黄条 质粒
+            //console.log(data[index].number);
+            d3.select("body")
+            .append("div")
+            .attr("class","yellow")
+            .style("top",String(y)+"px")
+            .style("left",String(datazhi[index].position/2)+"px")
+            .style("width",String(datazhi[index].len*1.5)+"px") 
+            y=y+20;
+
+        }
+    }
+
+    render(data);
+
+    
+</script>
+
+</body>
+
+</html>
