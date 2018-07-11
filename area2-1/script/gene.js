@@ -123,13 +123,12 @@ function loopDraw(g,data){
 }
 
 
-var svgContainer1,g1= createD3svg(1);
+//var svgContainer1,g1= createD3svg(1);
 
 // g标签中分别添加rect和text 标签
-loopDraw(g1,baseChains);
-document.getElementById('animationSpeed').value=speed;
-// addZoom(svgContainer, g);
-// enableDrag(svgContainer, g);
+//loopDraw(g1,baseChains);
+//document.getElementById('animationSpeed').value=speed;
+
 //添加遮罩 设置动画
 
 //增减宽度
@@ -165,6 +164,50 @@ function subSpeed(){
     document.getElementById('animationSpeed').value=speed;
     g1.text('');
     loopDraw(g1,baseChains);   
+}
+
+//服务器地址
+const url = "http://10.10.30.46:5000/get_chro_api.php";
+const gene_url = "http://10.10.30.46:5000/get_count_api.php";
+//发送数据请求并接收数据
+function requestData(a, b) {
+    //从文本框中获取需要的第a至b个碱基序列
+    requestCnt = b - a + 1;
+    var data = {
+        "chroname": chrName,
+        "start": a,
+        "end": b
+    };
+    console.log(["requestData:", chrName, a, b]);
+    data = JSON.stringify(data);
+    // console.log(data);
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        dataType: "json",
+        timeout: 1000,
+        success: function(data) {
+            console.log(["receive",data]);
+            //统一为大写字母
+            //baseChain = data.genes.toUpperCase();
+            // console.log(baseChain);
+            //beginPoint = a;
+            //console.log("beginPoint:" + beginPoint);
+            //reDraw(baseChain.length);
+        },
+        error: function(xhr, status, statusText) {
+            console.log(["error, HTTP:", xhr.status]);
+            baseChain = "NNNNNATCGATCGANNNTCGATCGCGATCGANNNTCGATCGCGATCGANNNTCGATCGCGATCGANNNTCGATCGCGATCGANNNTCGATCG";
+            //reDraw(baseChain.length);
+        },
+        complete: function(XMLHttpRequest, status) {　
+            beginPoint = a;　
+            if (status == 'timeout') {
+                console.log("timeout");　　
+            }　　
+        }
+    });
 }
 
 //创建websocket连结 by 王陈
@@ -204,6 +247,8 @@ so.onmessage=function(msg){
 }
 }
 
+
+
         //发送data给第3区
         //so.send('type=update&from=1&target=3'+'&msg='+esc(data));
         //}
@@ -213,3 +258,35 @@ so.onmessage=function(msg){
         //    da=da.replace(/</g,'<').replace(/>/g,'>').replace(/\"/g,'"');
         //    return encodeURIComponent(da);
         //}
+var g1=d3.select("body").append("div")
+.attr("id","div1")
+.style("height","50%")
+var img=g1.append("img")
+.attr("src","src/test.png")
+.style("position","absolute")
+.style("z-index","1")
+.style("height","50%");
+
+var svgContainer = g1
+        .append("svg")
+        .attr("id","svgContainer1")
+        .attr("width", svgWidth)
+        .attr("height", svgHeight);
+var g = svgContainer.append("g");
+var cover=g.append("rect")
+    .attr("id","cover")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("fill","#FFFFFF")
+    .attr("width", svgWidth)
+    .attr("height", "100%")
+    .attr("fill-opacity",1);
+var animateY=cover.append("animate")
+    .attr("id","animate1")
+    .attr("attributeName","y")
+    .attr("dur",String(speed)+'s')
+    .attr("from",0)
+    .attr("to",svgHeight)
+    .attr("repeatCount","indefinite");
+var chrName="chrI";
+requestData(333, 444);

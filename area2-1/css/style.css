@@ -23,3 +23,10 @@ button {
 #animationSpeedSubmit{
     width:10%;
 }
+#svgContainer1{
+
+    width:100%;
+    height:50%;
+    position:absolute;
+    z-index:2;
+}
