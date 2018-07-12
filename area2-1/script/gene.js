@@ -95,8 +95,8 @@ function subSpeed(){
 }
 
 //服务器地址
-const url = "http://10.10.30.46:5000/get_chro_api.php";
-const gene_url = "http://10.10.30.46:5000/get_count_api.php";
+const url = "http://10.10.30.46:5000/gene_api/get_chrombases_api.php";
+const gene_url = "http://10.10.30.46:5000/gene_api/get_genes_api.php";
 //发送数据请求并接收数据
 function requestData(a, b) {
     //从文本框中获取需要的第a至b个碱基序列
