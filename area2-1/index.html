@@ -36,8 +36,6 @@
     <div id="Dynamic process">
         <h3>Dynamic process</h3>
 
-        <input type="submit" value="width+" onclick=addWidth()>
-        <input type="submit" value="width-" onclick=subWidth()>
         <input type="submit" value="speed+" onclick=addSpeed()>
         <input type="submit" value="speed-" onclick=subSpeed()>
         <input type="text" value="动画速度(秒)" id='animationSpeed' > 
@@ -45,6 +43,7 @@
         <script type="text/javascript" src="script/gene.js"></script>
         <script>
         //webSocket 初始化
+        document.getElementById("animationSpeed").value=speed+"秒(动画时间)";
         start();
 
         // var gene_url = "http://10.10.30.46:5000/gene_api/get_genes_api.php";
